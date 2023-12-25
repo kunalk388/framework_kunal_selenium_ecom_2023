@@ -30,7 +30,7 @@ public class AccountsPage {
 
 		String title = elementutils.waitForTitleIsAndFetch(AppConstants.DEFAULT_SHORT_TIME_OUT,
 				AppConstants.ACCOUNT_PAGE_TITLE_VALUE);
-		System.out.println("Accounts page Title is :" + title);
+		System.out.println("Accounts Page Title is :" + title);
 		return title;
 
 	}
@@ -39,7 +39,7 @@ public class AccountsPage {
 
 		String url = elementutils.waitForURLContainsAndFetch(AppConstants.DEFAULT_SHORT_TIME_OUT,
 				AppConstants.ACCOUNT_PAGE_URL_FRACTION_VALUE);
-		System.out.println("Accounts page title is :" + url);
+		System.out.println("Accounts page url is :" + url);
 		return url;
 
 	}
