@@ -30,7 +30,7 @@ public class AccountsPage {
 
 		String title = elementutils.waitForTitleIsAndFetch(AppConstants.DEFAULT_SHORT_TIME_OUT,
 				AppConstants.ACCOUNT_PAGE_TITLE_VALUE);
-		System.out.println("Accounts page title is :" + title);
+		System.out.println("Accounts page title is ----:" + title);
 		return title;
 
 	}
@@ -56,6 +56,9 @@ public class AccountsPage {
 
 	}
 
+	
+	// /Library/Java/JavaVirtualMachines/jdk-11.jdk/Contents/Home
+	// 2648d858196147e08d56d0cddcc93d56
 	public List<String> getAccountsPageHeadersList() {
 
 		List<WebElement> accountHeadersList = elementutils.waitForElementsVisible(accountsHeader,
