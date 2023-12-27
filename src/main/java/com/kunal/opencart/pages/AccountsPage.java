@@ -41,7 +41,7 @@ public class AccountsPage {
 		String url = elementutils.waitForURLContainsAndFetch(AppConstants.DEFAULT_SHORT_TIME_OUT,
 				AppConstants.ACCOUNT_PAGE_URL_FRACTION_VALUE);
 		
-		System.out.println("Accounts Page URL is :" + url);
+		System.out.println("This Accounts Page URL is :" + url);
 		
 		
 		return url;
