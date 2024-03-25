@@ -43,6 +43,8 @@ public class OptionManager {
 			selenoidOptions.put("name", prop.getProperty("testname"));
 
 			co.setCapability("selenoid:options", selenoidOptions);
+			
+			co.setCapability("name", prop.getProperty("testcasename"));
 		
 		}
 		if (Boolean.parseBoolean(prop.getProperty("headless").trim())) {
