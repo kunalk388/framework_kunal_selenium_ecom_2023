@@ -5,31 +5,41 @@
 
 
 	<listeners>
-		<listener class-name="com.kunal.opencart.listners.ExtentReportListener">
-		</listener>
-		
-		<listener class-name="com.kunal.opencart.listners.TestAllureListener">
-		</listener>
-		
-		<listener class-name="com.kunal.opencart.listners.AnnotationTransformer">
-		</listener>
+		<listener class-name="com.kunal.opencart.listners.ExtentReportListener"></listener>
+
+		<listener class-name="com.kunal.opencart.listners.TestAllureListener"></listener>
+
+		<listener class-name="com.kunal.opencart.listners.AnnotationTransformer"></listener>
 
 	</listeners>
 
-	<test name="Login Page Test">
-
+	<test name="Login Page Test_chrome_90">
+		<parameter name="browser" value="chrome" />
+		<parameter name="browserversion" value="90.0" />
+		<parameter name="testcasename" value="Login Page Test" />
 		<classes>
 			<class name="com.kunal.opencart.tests.LoginPageTest" />
 		</classes>
 	</test>
 
-	<test name="Accounts Page Test">
-
+	<test name="Accounts Page Test_chrome_79">
+		<parameter name="browser" value="chrome" />
+		<parameter name="browserversion" value="79.0" />
+		<parameter name="testcasename" value="Accounts Page Test" />
 		<classes>
 			<class name="com.kunal.opencart.tests.AccountsPageTest" />
 		</classes>
 	</test>
-<!-- 
+
+	<test name="Accounts Page Test_chrome_109">
+		<parameter name="browser" value="chrome" />
+		<parameter name="browserversion" value="109.0" />
+		<parameter name="testcasename" value="Accounts Page Test" />
+		<classes>
+			<class name="com.kunal.opencart.tests.AccountsPageTest" />
+		</classes>
+	</test>
+	<!-- 
 	<test name="Product Info Page Test">
 
 		<classes>

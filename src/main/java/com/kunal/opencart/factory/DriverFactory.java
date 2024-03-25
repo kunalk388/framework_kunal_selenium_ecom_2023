@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
 
 import org.aspectj.util.FileUtil;
@@ -13,6 +15,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import com.kunal.opencart.exception.FrameworkException;
@@ -36,6 +39,7 @@ public class DriverFactory {
 
 	public WebDriver initDriver(Properties prop) {
 
+		
 		optionManger = new OptionManager(prop);
 
 		highlight = prop.getProperty("highlight").trim();
@@ -44,13 +48,36 @@ public class DriverFactory {
 		System.out.println("Browser name is: " + browserName);
 
 		if (browserName.equalsIgnoreCase("Chrome")) {
-			// driver = new ChromeDriver(optionManger.getChromeOptions());
-			tlDriver.set(new ChromeDriver(optionManger.getChromeOptions()));
+
+			// Chrome Browser 
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+
+				// run on grid/remote
+
+				init_remoteDriver("Chrome");
+
+			} else {
+			// Local Execution
+				   // driver = new ChromeDriver(optionManger.getChromeOptions());
+				tlDriver.set(new ChromeDriver(optionManger.getChromeOptions()));
+			}
+
 		}
 
+		// Firefox browser
+
 		else if (browserName.equalsIgnoreCase("firefox")) {
-			// driver = new FirefoxDriver(optionManger.getFirefoxOptions());
-			tlDriver.set(new FirefoxDriver(optionManger.getFirefoxOptions()));
+
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+
+				// run on grid/remote
+
+				init_remoteDriver("firefox");
+
+			} else {
+				// driver = new FirefoxDriver(optionManger.getFirefoxOptions());
+				tlDriver.set(new FirefoxDriver(optionManger.getFirefoxOptions()));
+			}
 		}
 
 		else if (browserName.equalsIgnoreCase("safari")) {
@@ -58,10 +85,18 @@ public class DriverFactory {
 			tlDriver.set(new SafariDriver());
 		}
 
-		else if (browserName.equalsIgnoreCase("edge")) {
-			// driver = new EdgeDriver(optionManger.getEdgeOptions());
+		// Edge browser
 
-			tlDriver.set(new EdgeDriver(optionManger.getEdgeOptions()));
+		else if (browserName.equalsIgnoreCase("edge")) {
+
+			if (Boolean.parseBoolean(prop.getProperty("remote"))) {
+				// run on grid/remote
+				init_remoteDriver("edge");
+			}
+			else {
+				// driver = new EdgeDriver(optionManger.getEdgeOptions());
+				tlDriver.set(new EdgeDriver(optionManger.getEdgeOptions()));
+			}
 		}
 
 		else {
@@ -79,6 +114,50 @@ public class DriverFactory {
 		return getDriver();
 	}
 
+	/**
+	 * this method is called internally to initialise the driver with remote
+	 * webDriver
+	 * 
+	 * @param browser
+	 */
+	private void init_remoteDriver(String browser) {
+		
+		System.out.println("Running test on grid server :::::" +browser);
+		try {
+			switch (browser.toLowerCase()) {
+
+			case "chrome":
+
+				tlDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionManger.getChromeOptions()));
+
+				break;
+			case "firefox":
+
+				tlDriver.set(
+						new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionManger.getFirefoxOptions()));
+				break;
+
+			case "edge":
+
+				tlDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionManger.getEdgeOptions()));
+
+				break;
+
+			default:
+				System.out.println("Please pass right browser name for remote execution " + browser);
+				throw new FrameworkException("NOREMOTEBROWSEREXCEPTION");
+
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * get the local thread copy of the driver
+	 * 
+	 * @return
+	 */
 	// synchronized - every driver get its own respective copy.
 	public synchronized static WebDriver getDriver() {
 
@@ -129,7 +208,7 @@ public class DriverFactory {
 				default:
 					System.out.println("Wrong environment is passed . no need to run test cases");
 					throw new FrameworkException("Wrong Env Passed .>>>");
-					//break;
+				// break;
 
 				}
 			}
